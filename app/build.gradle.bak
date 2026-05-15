@@ -7,11 +7,11 @@ android {
     compileSdk 35
 
     defaultConfig {
-        applicationId "aenu.ax360e.free"
+        applicationId "aenu.ax360e"
         minSdk 28
         targetSdk 35
-        versionCode 14
-        versionName "0.14"
+        versionCode 16
+        versionName "1.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
