@@ -103,7 +103,13 @@ PageAccess ToXeniaProtectFlags(const char* protection) {
   return PageAccess::kNoAccess;
 }
 
-bool IsWritableExecutableMemorySupported() { return true; }
+bool IsWritableExecutableMemorySupported() {
+#if defined(__ANDROID__) || XE_PLATFORM_ANDROID || XE_PLATFORM_AX360E
+  return false;
+#else
+  return true;
+#endif
+}
 
 struct MappedFileRange {
   uintptr_t region_begin;
