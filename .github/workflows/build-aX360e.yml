@@ -31,7 +31,11 @@ jobs:
 
       - name: Decode Keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_B64 }}" | base64 -d > app/release.jks
+          if [ ! -z "${{ secrets.ANDROID_KEYSTORE_B64 }}" ]; then
+            echo "${{ secrets.ANDROID_KEYSTORE_B64 }}" | base64 -d > app/release.jks
+          else
+            echo "No keystore secret provided. Skipping decode."
+          fi
 
       - name: Prepare Gradle file
         run: |
@@ -50,12 +54,19 @@ jobs:
       - name: Grant execute permission
         run: chmod +x gradlew
 
-      - name: Build Signed APK
+      - name: Build APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: |
+          if [ -z "${{ secrets.ANDROID_KEYSTORE_B64 }}" ]; then
+            echo "Keystore secret not found. Building Debug APK..."
+            ./gradlew assembleDebug
+          else
+            echo "Keystore secret found. Building Signed Release APK..."
+            ./gradlew assembleRelease
+          fi
 
       - name: Rename APK
         run: |
