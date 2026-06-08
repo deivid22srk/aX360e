@@ -61,6 +61,10 @@ DEFINE_bool(use_dedicated_xma_thread, true,
             "better results, but decrease performance a bit.",
             "APU");
 
+DEFINE_bool(use_new_decoder, false,
+            "Enables usage of new experimental XMA audio decoder.",
+            "APU");
+
 DEFINE_string(
     xma_decoder, "old",
     "Decoder version used to process XMA audio.\n"
@@ -150,7 +154,9 @@ X_STATUS XmaDecoder::Setup(kernel::KernelState* kernel_state) {
 
   // Setup XMA contexts.
   for (int i = 0; i < kContextCount; ++i) {
-    if (cvars::xma_decoder == "fake") {
+    if (cvars::use_new_decoder) {
+      contexts_[i] = new XmaContextNew();
+    } else if (cvars::xma_decoder == "fake") {
       contexts_[i] = new XmaContextFake();
     } else if (cvars::xma_decoder == "master") {
       contexts_[i] = new XmaContextMaster();
