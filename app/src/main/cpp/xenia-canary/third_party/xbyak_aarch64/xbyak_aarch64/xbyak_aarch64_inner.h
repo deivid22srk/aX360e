@@ -21,7 +21,13 @@ namespace inner {
 
 inline size_t getPageSize() {
 #ifdef __GNUC__
-  static const size_t pageSize = sysconf(_SC_PAGESIZE);
+  static const size_t pageSize = []() {
+    long sz = sysconf(_SC_PAGESIZE);
+    if (sz <= 0 || (sz & (sz - 1)) != 0) {
+      return (size_t)4096;
+    }
+    return (size_t)sz;
+  }();
 #else
   static const size_t pageSize = 4096;
 #endif

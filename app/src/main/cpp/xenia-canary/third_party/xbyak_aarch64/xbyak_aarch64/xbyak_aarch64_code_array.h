@@ -23,9 +23,20 @@ inline void *AlignedMalloc(size_t size, size_t alignment) {
 #ifdef _MSC_VER
   return _aligned_malloc(size, alignment);
 #else
-  void *p;
-  int ret = posix_memalign(&p, alignment, size);
-  return (ret == 0) ? p : 0;
+  void *p = nullptr;
+  size_t adj_alignment = alignment;
+  if (adj_alignment < sizeof(void*)) {
+    adj_alignment = sizeof(void*);
+  }
+  if ((adj_alignment & (adj_alignment - 1)) != 0) {
+    adj_alignment = 4096;
+  }
+  int ret = posix_memalign(&p, adj_alignment, size);
+  if (ret == 0 && p != nullptr) {
+    return p;
+  }
+  // Ultimate fallback to standard malloc
+  return malloc(size);
 #endif
 }
 
