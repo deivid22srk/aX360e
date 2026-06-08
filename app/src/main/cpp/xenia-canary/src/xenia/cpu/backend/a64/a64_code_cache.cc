@@ -38,14 +38,17 @@ void A64CodeCache::FlushCodeRange(void* address, size_t size) {
 #if XE_PLATFORM_WIN32
   FlushInstructionCache(GetCurrentProcess(), address, size);
 #else
+  uint8_t* write_address = reinterpret_cast<uint8_t*>(address);
+  __builtin___clear_cache(
+      reinterpret_cast<char*>(write_address),
+      reinterpret_cast<char*>(write_address + size));
 
-
-#if XE_PLATFORM_AX360E
-    //XELOGI("ASM:\n{}", aarch64_disasm(reinterpret_cast<uint64_t>(address),reinterpret_cast<uint32_t*>(address),size/4));
-#endif
+  if (this->generated_code_execute_base_ != this->generated_code_write_base_) {
+    uint8_t* execute_address = write_address - this->generated_code_write_base_ + this->generated_code_execute_base_;
     __builtin___clear_cache(
-      reinterpret_cast<char*>(address),
-      reinterpret_cast<char*>(static_cast<uint8_t*>(address) + size));
+        reinterpret_cast<char*>(execute_address),
+        reinterpret_cast<char*>(execute_address + size));
+  }
 #endif
 }
 
