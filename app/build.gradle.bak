@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'aenu.ax360e'
-    compileSdk 35
+    compileSdk 34
 
     defaultConfig {
         applicationId "aenu.ax360e"
         minSdk 28
-        targetSdk 35
+        targetSdk 34
         versionCode 16
         versionName "1.16"
 
