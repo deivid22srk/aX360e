@@ -21,6 +21,11 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Install Vulkan Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y glslang-tools spirv-tools
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
