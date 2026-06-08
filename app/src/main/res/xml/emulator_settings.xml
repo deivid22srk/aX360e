@@ -367,6 +367,15 @@
     </PreferenceScreen>
     <PreferenceScreen app:title="@string/es_logging"
         app:key="Logging" >
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="enable_debug_logging"
+            app:title="@string/enable_debug_logging"
+            app:summary="@string/enable_debug_logging_summary"
+            android:defaultValue="false" />
+        <Preference
+            app:key="view_logs"
+            app:title="@string/view_logs"
+            app:summary="@string/view_logs_summary" />
         <aenu.preference.CheckBoxPreference app:title="@string/es_logging_log_to_stdout"
             app:key="Logging|log_to_stdout"
             app:summary="@string/es_hint_logging_log_to_stdout" />

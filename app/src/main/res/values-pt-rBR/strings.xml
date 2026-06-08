@@ -501,5 +501,18 @@ Esta configuração requer que você pareie um sinal analógico e digital juntos
 2 = F16C
 -1 = Detectar e utilizar todos os recursos possíveis do processador</string>
 
+    <string name="enable_debug_logging">Ativar Log de Depuração do Emulador</string>
+    <string name="enable_debug_logging_summary">Escreve os logs do emulador em um arquivo para ajudar a identificar problemas, erros ou falhas de renderização durante o jogo.</string>
+    <string name="view_logs">Visualizar Logs</string>
+    <string name="view_logs_summary">Visualize, copie, exporte ou exclua os logs de execução do emulador.</string>
+    <string name="log_viewer">Visualizador de Logs</string>
+    <string name="log_copied">Logs copiados para a área de transferência!</string>
+    <string name="log_deleted">Arquivo de log excluído com sucesso!</string>
+    <string name="log_empty">Nenhum dado de log encontrado ou o arquivo está vazio.</string>
+    <string name="export_success">Log exportado com sucesso para %s</string>
+    <string name="export_failed">Falha ao exportar arquivo de log!</string>
+    <string name="menu_copy">Copiar</string>
+    <string name="menu_export">Exportar</string>
+    <string name="menu_delete">Excluir</string>
 
 </resources>

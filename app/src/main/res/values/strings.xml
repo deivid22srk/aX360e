@@ -503,4 +503,18 @@ This Config requires you to pair an analog and digitial flag together while digi
 2 = F16C
 -1 = Detect and utilize all possible processor features</string>
 
+    <string name="enable_debug_logging">Enable Emulator Debug Log</string>
+    <string name="enable_debug_logging_summary">Write emulator logs to a file to help identify problems, errors, or rendering issues during gameplay.</string>
+    <string name="view_logs">View Logs</string>
+    <string name="view_logs_summary">View, copy, export, or delete the emulator execution logs.</string>
+    <string name="log_viewer">Log Viewer</string>
+    <string name="log_copied">Logs copied to clipboard!</string>
+    <string name="log_deleted">Log file deleted successfully!</string>
+    <string name="log_empty">No log data found or log file is empty.</string>
+    <string name="export_success">Log exported successfully to %s</string>
+    <string name="export_failed">Failed to export log file!</string>
+    <string name="menu_copy">Copy</string>
+    <string name="menu_export">Export</string>
+    <string name="menu_delete">Delete</string>
+
 </resources>

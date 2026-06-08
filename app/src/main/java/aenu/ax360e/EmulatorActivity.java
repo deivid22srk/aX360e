@@ -60,10 +60,15 @@ public class EmulatorActivity extends Activity implements SurfaceHolder.Callback
         Emulator.get.setup_context(this);
         Emulator.get.setup_document_file_tree(DocumentFile.fromTreeUri(this,MainActivity.load_pref_game_dir( this)));
         Emulator.get.setup_game_path(path);
+        
+        SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enableDebugLogging = sPrefs.getBoolean("enable_debug_logging", false);
+        String logFilePath = enableDebugLogging ? (Application.get_app_data_dir().getAbsolutePath() + "/xe.log") : "";
+
         Emulator.get.setup_launch_args(new String[]{
                 "--storage_root="+Application.get_app_data_dir().getAbsolutePath(),
                 "--config="+Application.get_global_config_file().getAbsolutePath(),
-                "--log_file="+Application.get_app_data_dir().getAbsolutePath()+"/xe.log",
+                "--log_file="+logFilePath,
                 /*"--storage_root=/storage/emulated/0/Download/ax360e",
                 "--log_file=/storage/emulated/0/Download/ax360e/xe.log",*/
         });

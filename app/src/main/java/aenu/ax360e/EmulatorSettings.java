@@ -454,6 +454,11 @@ public class EmulatorSettings extends AppCompatActivity {
                 findPreference("Vulkan|adrenotools_force_max_clocks").setEnabled(false);
                 //return;
             }
+
+            Preference viewLogsPref = findPreference("view_logs");
+            if (viewLogsPref != null) {
+                viewLogsPref.setOnPreferenceClickListener(this);
+            }
         }
 
 
@@ -494,6 +499,11 @@ public class EmulatorSettings extends AppCompatActivity {
             if(preference.getKey().equals(Vulkan$vulkan_lib_path)){
                 show_select_custom_driver_list();
                 return false;
+            }
+            if("view_logs".equals(preference.getKey())){
+                Intent intent = new Intent(requireContext(), LogViewerActivity.class);
+                startActivity(intent);
+                return true;
             }
             if(preference instanceof PreferenceScreen){
                 setPreferenceScreen(root_pref.findPreference(preference.getKey()));
