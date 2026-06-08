@@ -30,6 +30,14 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(ax360e LANGUAGES C CXX ASM)
 
+# Enforce noexecstack globally across all targets, languages and linkers
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wa,--noexecstack")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,--noexecstack")
+set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -Wa,--noexecstack")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,noexecstack")
+set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,noexecstack")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,noexecstack")
+
 add_library(emu SHARED)
 set_target_properties(emu PROPERTIES OUTPUT_NAME "e")
 

@@ -221,6 +221,11 @@ static void ExceptionHandlerCallback(int signal_number, siginfo_t* signal_info,
       return;
     }
   }
+
+  // If the exception was not handled by any custom handler, restore the original
+  // handler so the process can crash cleanly instead of looping infinitely.
+  struct sigaction* original_handler = (signal_number == SIGILL) ? &original_sigill_handler_ : &original_sigsegv_handler_;
+  sigaction(signal_number, original_handler, nullptr);
 }
 
 void ExceptionHandler::Install(Handler fn, void* data) {
