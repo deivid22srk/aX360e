@@ -632,6 +632,7 @@ namespace ae{
     ANativeWindow* window;
     int window_width;
     int window_height;
+    float g_current_fps = 0.0f;
 
     std::string game_id;
 

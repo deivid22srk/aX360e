@@ -514,5 +514,7 @@ Esta configuração requer que você pareie um sinal analógico e digital juntos
     <string name="menu_copy">Copiar</string>
     <string name="menu_export">Exportar</string>
     <string name="menu_delete">Excluir</string>
+    <string name="show_fps_counter">Exibir Contador de FPS</string>
+    <string name="show_fps_counter_summary">Mostra a taxa de quadros por segundo real durante o jogo.</string>
 
 </resources>

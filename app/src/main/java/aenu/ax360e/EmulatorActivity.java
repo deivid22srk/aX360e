@@ -41,6 +41,35 @@ public class EmulatorActivity extends Activity implements SurfaceHolder.Callback
     private VibrationEffect vibrationEffect=null;
     boolean started=false;
     Dialog delay_dialog=null;
+
+    private android.widget.TextView fpsTextView;
+    private final Handler fpsHandler = new Handler();
+    private boolean isFpsCounterRunning = false;
+    private final Runnable fpsRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (Emulator.get != null && started) {
+                float fps = Emulator.get.get_fps();
+                fpsTextView.setText(String.format("FPS: %.1f", fps));
+            }
+            fpsHandler.postDelayed(this, 500);
+        }
+    };
+
+    private void startFpsCounter() {
+        if (!isFpsCounterRunning) {
+            isFpsCounterRunning = true;
+            fpsHandler.post(fpsRunnable);
+        }
+    }
+
+    private void stopFpsCounter() {
+        if (isFpsCounterRunning) {
+            isFpsCounterRunning = false;
+            fpsHandler.removeCallbacks(fpsRunnable);
+        }
+    }
+
     final Handler delay_on_create=new Handler(new Handler.Callback(){
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -83,6 +112,15 @@ public class EmulatorActivity extends Activity implements SurfaceHolder.Callback
         sf.setOnGenericMotionListener(this);
 
         load_key_map_and_vibrator();
+
+        fpsTextView = findViewById(R.id.fps_text_view);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sp.getBoolean("show_fps_counter", false)) {
+            fpsTextView.setVisibility(View.VISIBLE);
+            startFpsCounter();
+        } else {
+            fpsTextView.setVisibility(View.GONE);
+        }
     }
     void vibrator(){
         if(vibrator!=null) {
@@ -167,23 +205,28 @@ public class EmulatorActivity extends Activity implements SurfaceHolder.Callback
         ab.create().show();
     }
 
-    /*@Override
+    @Override
     protected void onPause()
     {
         super.onPause();
-        if(started)
-            if(Emulator.get.is_running())
-                Emulator.get.pause();;
+        stopFpsCounter();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        if(started)
-            if(Emulator.get.is_paused())
-                Emulator.get.resume();
-    }*/
+        if (fpsTextView != null) {
+            SharedPreferences sPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            if (sPrefs.getBoolean("show_fps_counter", false)) {
+                fpsTextView.setVisibility(View.VISIBLE);
+                startFpsCounter();
+            } else {
+                fpsTextView.setVisibility(View.GONE);
+                stopFpsCounter();
+            }
+        }
+    }
 
     @Override
     protected void onDestroy()

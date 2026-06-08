@@ -495,6 +495,10 @@ static void j_quit(JNIEnv* env,jobject self){
     ae::quit();
 }
 
+static jfloat j_get_fps(JNIEnv* env, jobject self) {
+    return ae::g_current_fps;
+}
+
 int register_Emulator(JNIEnv* env){
     static const JNINativeMethod methods[] = {
             { "setup_game_path", "(Ljava/lang/String;)V", (void *) j_setup_game_path },
@@ -508,6 +512,7 @@ int register_Emulator(JNIEnv* env){
             { "pause", "()V", (void *) j_pause },
             { "resume", "()V", (void *) j_resume },
             { "change_surface", "(II)V", (void *) j_change_surface },
+            { "get_fps", "()F", (void *) j_get_fps },
     };
     return env->RegisterNatives(env->FindClass("aenu/emulator/Emulator"),methods, sizeof(methods)/sizeof(methods[0]));
 }

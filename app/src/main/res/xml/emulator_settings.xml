@@ -61,6 +61,11 @@
     </PreferenceScreen>
     <PreferenceScreen app:title="@string/es_ui"
         app:key="UI" >
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="show_fps_counter"
+            app:title="@string/show_fps_counter"
+            app:summary="@string/show_fps_counter_summary"
+            android:defaultValue="false" />
         <aenu.preference.CheckBoxPreference app:title="@string/es_ui_show_profiler"
             app:key="UI|show_profiler"
             app:summary="@string/es_hint_ui_show_profiler" />

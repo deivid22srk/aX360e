@@ -513,6 +513,8 @@ This Config requires you to pair an analog and digitial flag together while digi
     <string name="log_empty">No log data found or log file is empty.</string>
     <string name="export_success">Log exported successfully to %s</string>
     <string name="export_failed">Failed to export log file!</string>
+    <string name="show_fps_counter">Show FPS Counter</string>
+    <string name="show_fps_counter_summary">Show the real frames per second rate during gameplay.</string>
     <string name="menu_copy">Copy</string>
     <string name="menu_export">Export</string>
     <string name="menu_delete">Delete</string>

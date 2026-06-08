@@ -19,6 +19,7 @@ namespace ae{
     extern ANativeWindow* window;
     extern int window_width;
     extern int window_height;
+    extern float g_current_fps;
 
     extern void main_thr();
     extern void key_event(int key_code,bool pressed,int value);

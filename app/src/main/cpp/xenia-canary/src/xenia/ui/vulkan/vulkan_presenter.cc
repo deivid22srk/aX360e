@@ -10,6 +10,11 @@
 #include "xenia/ui/vulkan/vulkan_presenter.h"
 
 #include <cstdint>
+#include <chrono>
+
+namespace ae {
+  extern float g_current_fps;
+}
 
 #include "xenia/base/assert.h"
 #include "xenia/base/cvar.h"
@@ -2100,6 +2105,18 @@ Presenter::PaintResult VulkanPresenter::PaintAndPresentImpl(
         vulkan_device_->AcquireQueue(paint_context_.present_queue_family, 0);
     present_result =
         dfn.vkQueuePresentKHR(queue_acquisition.queue(), &present_info);
+  }
+  if (present_result == VK_SUCCESS || present_result == VK_SUBOPTIMAL_KHR) {
+    static int vulkan_frame_count = 0;
+    static auto vulkan_last_time = std::chrono::steady_clock::now();
+    vulkan_frame_count++;
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - vulkan_last_time).count();
+    if (elapsed >= 1000) {
+      ae::g_current_fps = static_cast<float>(vulkan_frame_count) * 1000.0f / elapsed;
+      vulkan_frame_count = 0;
+      vulkan_last_time = now;
+    }
   }
   switch (present_result) {
     case VK_SUCCESS:
