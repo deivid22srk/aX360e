@@ -113,7 +113,9 @@ static size_t WriteULEB128(uint8_t* p, uint64_t value) {
 
 static std::vector<uint8_t> encode_uleb128(uint64_t value) {
   std::vector<uint8_t> result;
-  result.resize(WriteULEB128(result.data(), value));
+  uint8_t temp[16];
+  size_t size = WriteULEB128(temp, value);
+  result.assign(temp, temp + size);
   return result;
 }
 
