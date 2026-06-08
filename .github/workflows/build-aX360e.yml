@@ -21,13 +21,22 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Install Vulkan Tools
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Vulkan Tools and Ccache
         run: |
           sudo apt-get update
-          sudo apt-get install -y glslang-tools spirv-tools
+          sudo apt-get install -y glslang-tools spirv-tools ccache
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Cache Ccache
+        uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ${{ runner.os }}-ccache-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-${{ github.ref }}-
+            ${{ runner.os }}-ccache-
 
       - name: Decode Keystore
         run: |
@@ -59,7 +68,11 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          CCACHE_DIR: ${{ github.workspace }}/.ccache
+          CMAKE_C_COMPILER_LAUNCHER: ccache
+          CMAKE_CXX_COMPILER_LAUNCHER: ccache
         run: |
+          ccache -s
           if [ -z "${{ secrets.ANDROID_KEYSTORE_B64 }}" ]; then
             echo "Keystore secret not found. Building Debug APK..."
             ./gradlew assembleDebug
@@ -67,6 +80,7 @@ jobs:
             echo "Keystore secret found. Building Signed Release APK..."
             ./gradlew assembleRelease
           fi
+          ccache -s
 
       - name: Rename APK
         run: |
