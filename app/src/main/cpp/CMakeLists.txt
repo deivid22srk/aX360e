@@ -16,6 +16,7 @@ add_compile_options(-stdlib=libc++)
 add_compile_options(-fPIC)
 
 add_link_options(-Wl,-z,max-page-size=16384)
+add_link_options(-Wl,-z,noexecstack)
 
 add_library(hardware_ProcessorInfo SHARED hardware_ProcessorInfo.cpp)
 target_link_libraries(hardware_ProcessorInfo PRIVATE vulkan)
