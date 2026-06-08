@@ -14,6 +14,8 @@ project("ax360e")
 add_compile_options(-march=armv8-a)
 add_compile_options(-stdlib=libc++)
 add_compile_options(-fPIC)
+add_compile_options(-Wa,--noexecstack)
+add_compile_options(-fno-execstack)
 
 add_link_options(-Wl,-z,max-page-size=16384)
 add_link_options(-Wl,-z,noexecstack)
